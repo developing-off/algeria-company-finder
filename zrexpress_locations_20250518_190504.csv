@@ -1,0 +1,45 @@
+﻿name,address,wilaya_name,wilaya_code,commune,postal_code,phone,website,latitude,longitude,vicinity,language,place_id,status
+ZR Express Adrar,"VPH8+37C, Adrar, Algérie",Adrar,01,Adrar,01000,+213661110053,,27.8777841,-0.2842951,"VPH8+37C, Adrar",fr,ChIJ_xGWpXyf9Q0Ro7SuF9_Jhh8,OPERATIONAL
+Zr express chlef,"585J+MMP, Chlef, Algérie",Chlef,02,Cité Ruiz,02000,,,36.15922439999999,1.3316997,"585J+MMP, Chlef",fr,ChIJNYYtIPcPhBIRP4mV1sd-coc,OPERATIONAL
+ZR Express Laghouat,"QRVW+8QP, Laghouat, Algérie",Laghouat,03,Laghouat,03000,+213698821234,,33.79380699999999,2.8465429,"QRVW+8QP, Laghouat",fr,ChIJTbZICADhYhIR4WhNHsJV8oI,OPERATIONAL
+Zrexpress Oum el bouaghi,"92 EPLF, Oum el Bouaghi, Algérie",Oum El Bouaghi,04,Oum El Bouaghi,04000,+213672961016,,35.8691361,7.1231195,"92 EPLF, Oum el Bouaghi",fr,ChIJGdjDK-3X8BIRx_An2m4lK6o,OPERATIONAL
+ZR express البريد السريع,"G4XW+HRJ, Batna, Algérie",Batna,05,Batna,05000,+213770555245,,35.54894549999999,6.146965899999999,"G4XW+HRJ, Batna",fr,ChIJW-Dbgw8T9BIRQ6HllWHTFkE,OPERATIONAL
+zr express béjaia,"P3V2+H7F, Béjaïa, Algérie",Béjaïa,06,Bejaia,06000,,,36.74393,5.050668,"P3V2+H7F, Béjaïa",fr,ChIJN2j2xbIzjRIRnWz4pgselQk,OPERATIONAL
+Zr express biskra,"RMXX+FCQ, Biskra, Algérie",Biskra,07,Biskra,07000,+213771534058,,34.850378,5.6992278,"RMXX+FCQ, Biskra",fr,ChIJbUEAcEMJ9RIRjIXwMrcFZIg,OPERATIONAL
+Zrexpress bechar,"JQ5F+H9G, Béchar, Algérie",Béchar,08,Bechar,08000,+213770059498,,31.607972,-2.2250919,JQ5F+H9G,fr,ChIJ35iwW9b3jw0RPP3O1CpEPCU,OPERATIONAL
+ZR Express Bouira,"Bouira, Algérie",Bouira,10,Bouira,10000,+213770381812,,36.3804652,3.8911554,Bouira,fr,ChIJH2HxuVIvjBIRsU4KG2nVcUU,OPERATIONAL
+ZR Express Tamanrasset,"Tamanrasset, Algérie",Tamanrasset,11,Tamanrasset,11000,+213770994257,,22.7988968,5.516752099999999,Tamanrasset,fr,ChIJEcfnNfxvIBIRPgjUwKZ7BCk,OPERATIONAL
+zr express tébessa,"C36V+95F, Tébessa, Algérie",Tébessa,12,Tebessa,12000,+213659430681,http://www.zrexpress.fr/,35.4106937,8.0928807,"C36V+95F, Tébessa",fr,ChIJcaxiMgDt-RIR05dtbX09jaE,OPERATIONAL
+ZRexpress Tlemcen,"Tlemcen, Algérie",Tlemcen,13,Tlemcen,13000,+213770396954,http://zrexpress.com/,34.8948011,-1.3259789,Tlemcen,fr,ChIJr_ultdvJeA0REhbjwV95oAg,OPERATIONAL
+ZR express Tiaret,"987C+9C7, Tiaret, Algérie",Tiaret,14,Tiaret,14000,,,35.3635202,1.321164,"987C+9C7, Tiaret",fr,ChIJg7w33PzRhhIRuNkgs-3RlOw,OPERATIONAL
+Zrexpress Tizi ouzou,"Sud-Ouest, Tizi Ouzou 15000, Algérie",Tizi Ouzou,15,Tizi Ouzou,15000,+213770599901,,36.7066785,4.0319372,"Sud-Ouest, Tizi Ouzou",fr,ChIJ-duqcaXHjRIR56HHNYTVdIM,OPERATIONAL
+zrexpress,"Birkhadem el malha, Djasr Kasentina 16029, Algérie",Alger,16,Alger,16029,+213770601836,,36.69958819999999,3.0536634,Birkhadem el malha,fr,ChIJq5Q88g2tjxIRAJfuZt8y28M,OPERATIONAL
+ZR express Djelfa,"M66W+M92, Djelfa, Algérie",Djelfa,17,Djelfa,17000,+213770451600,,34.66163349999999,3.2458983,"M66W+M92, Djelfa",fr,ChIJFw7fA1HFiRIR_b84dyPCnXM,OPERATIONAL
+Zr express Jijel,"RQ54+QJ4, Jijel, Algérie",Jijel,18,Jijel,18000,+213660139308,,36.80500190000001,5.756058599999999,"RQ54+QJ4, Jijel",fr,ChIJgZ8-m7Bf8hIRcX_Tx-oC01s,OPERATIONAL
+Zr express setif,"5CQQ+XH3, Sétif, Algérie",Sétif,19,Setif,19000,+213549664174,,36.1898875,5.4389219,"5CQQ+XH3, Sétif",fr,ChIJg8qkRPEV8xIRsjKFKy8Ma1Y,OPERATIONAL
+ZR express Saïda,"V524+969, Saïda, Algérie",Saïda,20,Saïda,20000,+213795271265,,34.8509033,0.1556105,"V524+969, Saïda",fr,ChIJS10ODo0XgBIRY5L2xpqvWfk,OPERATIONAL
+ZREXPRESS SKIKDA,"VW94+G8G، Rue Mokhbi Leulmi، Skikda, Algérie",Skikda,21,Skikda,21000,+213792435732,,36.8688125,6.9058286,"VW94+G8G, Rue Mokhbi Leulmi, Skikda",fr,ChIJx2_SYlDF8RIRcF1EuzSTapA,OPERATIONAL
+Zr express sidi bel abbès,"69CG+J96, Sidi Bel Abbès, Algérie",Sidi Bel Abbès,22,Sidi Bel Abbes,22000,+213773981287,,35.2186515,-0.6289585999999999,"69CG+J96, Sidi Bel Abbès",fr,ChIJ5Xm0GA3_fg0R_iC-Euf9_sE,OPERATIONAL
+ZR express annaba,"Rue de l'AVANT Port, Annaba, Algérie",Annaba,23,Annaba,23000,+213796369689,,36.9026442,7.7668267,"Rue de l'AVANT Port, Annaba",fr,ChIJYUAckJQH8BIRqUsEYnwY1yg,OPERATIONAL
+Zrexpress Guelma,"FC7P+GXR, Rue P, Guelma, Algérie",Guelma,24,Guelma,24000,+21337143224,,36.4638546,7.4373814,"FC7P+GXR, Rue P, Guelma",fr,ChIJFRM7y4Zf8BIRhwp59BlhbOc,OPERATIONAL
+Zr Express Constantine,"7H6R+JCQ, El Khroub, Algérie",Constantine,25,Ali Mendjeli,25000,+213770777159,http://zrexpress.fr/express,36.2655657,6.592821799999999,"7H6R+JCQ, El Khroub",fr,ChIJ226Uuztx8RIRkEvkc0LQojI,OPERATIONAL
+ZRexpress Médéa (stop desk),"7QF6+R9J, Médéa, Algérie",Médéa,26,Médéa,26000,+213779460270,,36.2745125,2.760914799999999,"7QF6+R9J, Médéa",fr,ChIJARR26vFrjxIREA710fnvNlM,OPERATIONAL
+ZR Express Mostaganem,"W3JM+R3Q, Mostaganem, Algérie",Mostaganem,27,Mostaganem,27000,+213674724506,,35.93208000000001,0.082735,"W3JM+R3Q, Mostaganem",fr,ChIJJ3b4WE0DghIREYwVQaHPi0o,OPERATIONAL
+ZRexpress m'sila,"PG9G+P62, M'Sila, Algérie",M'Sila,28,M'sila,28000,+213770641663,,35.7192669,4.5255283,"PG9G+P62, M'Sila",fr,ChIJLUNyLLd7ixIR9Y3l2LU0HoI,OPERATIONAL
+ZRexpress Mascara,"C42P+JX5, Mascara, Algérie",Mascara,29,Mascara,29000,+213668052517,,35.401504,0.1374827,"C42P+JX5, Mascara",fr,ChIJGbvUV2jbgRIR4KX8RA9kP5U,OPERATIONAL
+ZR express ouargla,"X85F+59M, Ouargla, Algérie",Ouargla,30,Ouargla,30000,+213770612103,,31.9579643,5.3234309,"X85F+59M, Ouargla",fr,ChIJM9UJFvVrXRIRXJiRGFeQrkc,OPERATIONAL
+ZRexpress Oran,"PC55+H76, Bvd Zighout Youcef, Oran 31000, Algérie",Oran,31,Bir El Djir,31000,+21341822996,,35.7089123,-0.5918566,"PC55+H76, Bvd Zighout Youcef, Oran",fr,ChIJid5LGQKJfg0Rayf_v19bi-g,OPERATIONAL
+Zrexpress Oran Bir El Djir,"PCJR+895, Bir El Djir, Algérie",Oran,31,Bir El Djir,31000,,,35.7308469,-0.5590393,"PCJR+895, Bir El Djir",fr,ChIJf7hQ-0Jjfg0RhH20iee8uPc,OPERATIONAL
+ZR express El Bayadh,"M2J9+849, El-Bayadh, Algérie",El Bayadh,32,El Bayadh,32000,+213770229632,,33.6807793,1.0178665,"M2J9+849, El-Bayadh",fr,ChIJMy42a5iPfhIRIaABcf-iokU,OPERATIONAL
+Zr Express BBA,"34000، Bordj Bou Arreridj 34000, Algérie",Bordj Bou Arréridj,34,Boumrged,34000,+213770272317,,36.0699594,4.812494900000001,34000,fr,ChIJQZ55qrO7jBIRHUGXqwwTahU,OPERATIONAL
+"ZR Express, Boumerdes","Bt 21, Mohamed El Mehdi Blvd, Boumerdès, Algérie",Boumerdès,35,Boumerdès,35000,,,36.7644875,3.463983800000001,"Bt 21, Mohamed El Mehdi Boulevard, Boumerdès",fr,ChIJjzNSGsxpjhIRUg0PHQv1DhM,OPERATIONAL
+ZR Express Tissemsilt,"JR42+9WF, Rue 7, Tissemsilt, Algérie",Tissemsilt,38,Tissemsilt,38000,+213770798060,http://www.zrexpress.com/,35.6059467,1.802424,"JR42+9WF, Rue 7, Tissemsilt",fr,ChIJBUQcNwCLhhIRMI7M3_HdGdQ,OPERATIONAL
+ZR Express Khenchela,"C47R+R69, Khenchela, Algérie",Khenchela,40,Babar 1,40000,+213560622325,http://www.zrexpress.fr/,35.41454249999999,7.140355799999999,"C47R+R69, Khenchela",fr,ChIJOxk6cgAh9xIRRiBUDSQV66w,OPERATIONAL
+Zr express souk ahras,"7WPR+PF2، Pawlou 1، Souk Ahras, Algérie",Souk Ahras,41,Souk Ahras,41000,+213795949808,,36.2867525,7.9411264,"7WPR+PF2, Pawlou 1, Souk Ahras",fr,ChIJQVc66UF9-hIRYww1bdyIkYA,OPERATIONAL
+Zr express Tipaza,"مسكن عدل, عمارة 29 سي 5, Tipaza, Algérie",Tipaza,42,Tipaza,42000,+213770420724,,36.5889184,2.465974,"مسكن عدل, عمارة 29 سي 5, Tipaza",fr,ChIJLf4g5iiBjxIR5RXvkVFpP34,OPERATIONAL
+zr express mila,"COMMUNE DE MILA, Mila 43000, Algérie",Mila,43,Mila,43000,+213657224773,,36.4451685,6.261622099999999,"COMMUNE DE MILA, Mila",fr,ChIJt4DDVqct8hIRJg_bitoJPXM,OPERATIONAL
+Zr express ain defla,"Aïn Defla, Algérie",Aïn Defla,44,Aïn Defla,44000,+213770994579,,36.261724,1.9770247,Aïn Defla,fr,ChIJ55-3q6G3hRIRWzKGJ6cQXXE,OPERATIONAL
+ZR Express MECHERIA 45,"GPVG+RMH, Naâma, Algérie",Naâma,45,Mechria,45000,+213770033923,,33.54455290000001,-0.2732658,"GPVG+RMH, Naâma",fr,ChIJkWi-qZaTgA0RLeq_xyZ11DY,OPERATIONAL
+Zr express aïn témouchent,"8V42+CHJ, Aïn Témouchent, Algérie",Aïn Témouchent,46,Ain Temouchent,46000,+213770766682,,35.3060762,-1.1486155,"8V42+CHJ, Aïn Témouchent",fr,ChIJt7vEionTfg0RCfHgNswot1Q,OPERATIONAL
+ZR express ghardaia,"Ghardaïa, Algérie",Ghardaïa,47,Ghardaïa,47000,+213791544440,,32.4920507,3.682666899999999,Ghardaïa,fr,ChIJrWYqASIpZBIROjoy_b6bL40,OPERATIONAL
+ZR EXPRESS,"Rue A A, Relizane, Algérie",Relizane,48,Relizane,48000,+213770964076,,35.7463202,0.5602427999999999,"Rue A A, Relizane",fr,ChIJvSD9h1uDgRIR5025e3tFWWc,OPERATIONAL

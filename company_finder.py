@@ -7,7 +7,7 @@ import time
 import re
 import unicodedata
 
-# Dictionnaire des wilayas algériennes avec leurs codes et préfixes postaux
+# Dictionary of Algerian wilayas with their codes and postal code prefixes
 ALGERIA_WILAYAS = {
     'Adrar': {'code': '01', 'postal_prefix': '01'},
     'Chlef': {'code': '02', 'postal_prefix': '02'},
@@ -69,7 +69,7 @@ ALGERIA_WILAYAS = {
     'El Meniaa': {'code': '58', 'postal_prefix': '58'}
 }
 
-# Coordonnées des wilayas (centres approximatifs)
+# Wilaya coordinates (approximate centers)
 WILAYA_COORDINATES = {
     'Adrar': (27.8742, -0.2939), 'Chlef': (36.1691, 1.3338), 'Laghouat': (33.8000, 2.8650),
     'Oum El Bouaghi': (35.8750, 7.1139), 'Batna': (35.5550, 6.1742), 'Béjaïa': (36.7508, 5.0567),
@@ -94,40 +94,42 @@ WILAYA_COORDINATES = {
     'El M\'Ghair': (33.9500, 5.9200), 'El Meniaa': (30.5789, 2.8789)
 }
 
-# Noms alternatifs des wilayas (français, arabe, variations communes)
+# Alternative names and search patterns for wilayas
 WILAYA_ALTERNATIVES = {
     'Adrar': ['Adrar', 'ادرار'],
-    'Timimoun': ['Timimoun', 'تيميمون', 'Timimoune'],
-    'Bordj Badji Mokhtar': ['Bordj Badji Mokhtar', 'برج باجي مختار', 'BBM'],
-    'Béni Abbès': ['Béni Abbès', 'بني عباس', 'Beni Abbes'],
-    'In Salah': ['In Salah', 'عين صالح', 'Ain Salah', 'In Saleh'],
-    'In Guezzam': ['In Guezzam', 'عين قزام', 'Ain Guezzam'],
-    'Touggourt': ['Touggourt', 'تقرت', 'Tugurt', 'Touggurt'],
-    'Djanet': ['Djanet', 'جانت', 'Janet'],
-    'El M\'Ghair': ['El M\'Ghair', 'المغير', 'El Meghaier', 'El-Mgheir'],
-    'El Meniaa': ['El Meniaa', 'المنيعة', 'El Menia', 'El-Meniaa']
+    'Timimoun': ['Timimoun', 'تيميمون', 'Timimoune', 'Timimoun Adrar', 'تيميمون ادرار'],
+    'Bordj Badji Mokhtar': ['Bordj Badji Mokhtar', 'برج باجي مختار', 'BBM', 'Bordj Badji', 'Bordj Mokhtar'],
+    'Béni Abbès': ['Béni Abbès', 'بني عباس', 'Beni Abbes', 'Beni-Abbes', 'Béni-Abbès'],
+    'In Salah': ['In Salah', 'عين صالح', 'Ain Salah', 'In Saleh', 'Ain-Salah', 'In-Salah'],
+    'In Guezzam': ['In Guezzam', 'عين قزام', 'Ain Guezzam', 'In-Guezzam', 'Ain-Guezzam'],
+    'Touggourt': ['Touggourt', 'تقرت', 'Tugurt', 'Touggurt', 'Toggourt', 'Teggourt'],
+    'Djanet': ['Djanet', 'جانت', 'Janet', 'Djanet Illizi', 'Janet Illizi'],
+    'El M\'Ghair': ['El M\'Ghair', 'المغير', 'El Meghaier', 'El-Mgheir', 'El Meghair', 'El-Meghair'],
+    'El Meniaa': ['El Meniaa', 'المنيعة', 'El Menia', 'El-Meniaa', 'El-Menia', 'Ghardaia El Meniaa']
 }
 
 def load_api_key() -> str:
-    """Charge la clé API Google Maps depuis le fichier .env"""
+    """Load Google Maps API key from .env file."""
     load_dotenv()
     api_key = os.getenv('GOOGLE_MAPS_API_KEY')
     if not api_key:
-        raise ValueError("Veuillez définir GOOGLE_MAPS_API_KEY dans votre fichier .env")
+        raise ValueError("Please set GOOGLE_MAPS_API_KEY in your .env file")
     return api_key
 
 def initialize_gmaps_client() -> googlemaps.Client:
-    """Initialise le client Google Maps"""
+    """Initialize Google Maps client."""
     api_key = load_api_key()
     return googlemaps.Client(key=api_key)
 
 def get_wilaya_info(address_components: list) -> dict:
-    """Extrait les informations de la wilaya depuis les composants d'adresse"""
+    """Extract wilaya information from address components."""
     wilaya_name = next((comp['long_name'] for comp in address_components 
                        if 'administrative_area_level_1' in comp['types']), '')
     
+    # Clean up wilaya name
     wilaya_name = wilaya_name.replace('Wilaya d\'', '').replace('Wilaya de ', '')
     
+    # Try to find the wilaya info
     for key, info in ALGERIA_WILAYAS.items():
         if key.lower() in wilaya_name.lower():
             return {
@@ -138,88 +140,57 @@ def get_wilaya_info(address_components: list) -> dict:
     return {'name': wilaya_name, 'code': '', 'postal_prefix': ''}
 
 def extract_postal_code(address_components: list, wilaya_info: dict) -> str:
-    """Extrait et valide le code postal depuis les composants d'adresse"""
+    """Extract and validate postal code from address components."""
+    # Try to get postal code from address components
     postal_code = next((comp['long_name'] for comp in address_components 
                        if 'postal_code' in comp['types']), '')
     
+    # If no postal code found, try to extract it from the full address
     if not postal_code:
         for comp in address_components:
+            # Look for postal code pattern in any address component
             match = re.search(r'\b\d{5}\b', comp['long_name'])
             if match:
                 postal_code = match.group(0)
                 break
     
+    # Validate postal code format and wilaya prefix
     if postal_code and len(postal_code) == 5:
         prefix = postal_code[:2]
         if prefix == wilaya_info['postal_prefix']:
             return postal_code
     
+    # If no valid postal code found, generate a default one using the wilaya prefix
     return f"{wilaya_info['postal_prefix']}000"
 
 def normalize_text(text: str) -> str:
-    """Normalise le texte en supprimant les accents et en standardisant les espaces"""
+    """Normalize text by removing diacritics and standardizing whitespace."""
     if not text:
         return ''
+    # Normalize unicode characters
     text = unicodedata.normalize('NFKD', text).encode('ASCII', 'ignore').decode('ASCII')
+    # Standardize whitespace
     text = ' '.join(text.split())
     return text.lower().strip()
 
 def is_duplicate_location(new_loc: Dict, existing_locations: List[Dict]) -> bool:
     """
-    Check if a location is a duplicate using multiple strict criteria.
+    Check if a location is a duplicate using multiple criteria.
     """
     for existing in existing_locations:
-        # Check if coordinates are very close (within ~25 meters)
-        # Reduced from 0.0005 (~50m) to 0.00025 (~25m) for more precision
-        if abs(new_loc['latitude'] - existing['latitude']) < 0.00025 and \
-           abs(new_loc['longitude'] - existing['longitude']) < 0.00025:
+        # Check if coordinates are very close (within ~50 meters)
+        if abs(new_loc['latitude'] - existing['latitude']) < 0.0005 and \
+           abs(new_loc['longitude'] - existing['longitude']) < 0.0005:
             return True
         
-        # Normalize and compare names
-        new_name = normalize_text(new_loc['name'])
-        existing_name = normalize_text(existing['name'])
-        
-        # Check for name similarity (exact match or one contains the other)
-        names_match = (new_name == existing_name or 
-                      new_name in existing_name or 
-                      existing_name in new_name)
-        
-        # Compare addresses and vicinity
-        new_vicinity = normalize_text(new_loc['vicinity'] or '')
-        existing_vicinity = normalize_text(existing['vicinity'] or '')
-        new_address = normalize_text(new_loc['address'] or '')
-        existing_address = normalize_text(existing['address'] or '')
-        
-        # Check if addresses or vicinity match
-        address_match = (
-            (new_vicinity and existing_vicinity and 
-             (new_vicinity == existing_vicinity or 
-              new_vicinity in existing_vicinity or 
-              existing_vicinity in new_vicinity)) or
-            (new_address and existing_address and 
-             (new_address == existing_address or
-              new_address in existing_address or
-              existing_address in new_address))
-        )
+        # Check if normalized names and addresses match
+        if normalize_text(new_loc['name']) == normalize_text(existing['name']) and \
+           normalize_text(new_loc['vicinity'] or '') == normalize_text(existing['vicinity'] or ''):
+            return True
         
         # Check if phone numbers match (when available)
-        phone_match = (new_loc.get('phone') and existing.get('phone') and 
-                      normalize_text(new_loc['phone']) == normalize_text(existing['phone']))
-        
-        # Additional validation: check postal codes and communes
-        postal_match = (new_loc.get('postal_code') == existing.get('postal_code'))
-        commune_match = (normalize_text(new_loc.get('commune', '')) == 
-                        normalize_text(existing.get('commune', '')))
-        
-        # Consider it a duplicate if:
-        # 1. Names match AND (addresses match OR postal codes match OR communes match)
-        # 2. Phone numbers match (if available)
-        # 3. Very close coordinates AND (names match OR addresses match)
-        if (names_match and (address_match or postal_match or commune_match)) or \
-           phone_match or \
-           (abs(new_loc['latitude'] - existing['latitude']) < 0.00025 and 
-            abs(new_loc['longitude'] - existing['longitude']) < 0.00025 and 
-            (names_match or address_match)):
+        if new_loc.get('phone') and existing.get('phone') and \
+           normalize_text(new_loc['phone']) == normalize_text(existing['phone']):
             return True
     
     return False
@@ -249,122 +220,115 @@ def clean_arabic_text(text: str) -> str:
     text = ' '.join(text.split())
     return text.strip()
 
-def is_valid_company_name(found_name: str, search_name: str) -> bool:
-    """Vérifie si le nom trouvé correspond à l'entreprise recherchée"""
-    found_normalized = normalize_text(found_name)
-    search_normalized = normalize_text(search_name)
+def normalize_company_name(company_name: str) -> List[str]:
+    """Generate variations of company name for better matching."""
+    variations = []
+    # Original name
+    variations.append(company_name)
     
-    if found_normalized == search_normalized:
-        return True
+    # Clean and lowercase
+    clean_name = company_name.lower().replace(' ', '')
+    variations.append(clean_name)
     
-    found_words = found_normalized.split()
-    search_words = search_normalized.split()
+    # Common variations for express/delivery companies
+    if 'express' in clean_name.lower():
+        # Handle variations like zrexpress, zr express, zr-express
+        base_name = clean_name.replace('express', '')
+        variations.extend([
+            f"{base_name} express",
+            f"{base_name}-express",
+            f"{base_name}express",
+            f"{base_name} delivery",
+            f"{base_name} transport"
+        ])
+        
+        # Add variations with spaces
+        if len(base_name) > 2:
+            variations.extend([
+                f"{base_name[:2]} {base_name[2:]} express",
+                f"{base_name[:2]}-{base_name[2:]} express",
+                f"{base_name[:2]} express"
+            ])
     
-    try:
-        last_index = -1
-        for search_word in search_words:
-            found_index = -1
-            for i, found_word in enumerate(found_words):
-                if i > last_index and search_word == found_word:
-                    found_index = i
-                    break
-            if found_index == -1:
-                return False
-            last_index = found_index
-        return True
-    except:
+    # Remove duplicates while preserving order
+    return list(dict.fromkeys(variations))
+
+def validate_place_name(place_name: str, company_name: str) -> bool:
+    """Enhanced validation of place names."""
+    if not place_name or not company_name:
         return False
+        
+    place_normalized = normalize_text(place_name)
+    company_variations = normalize_company_name(company_name)
+    
+    # Check against all variations
+    for variation in company_variations:
+        variation_normalized = normalize_text(variation)
+        if variation_normalized in place_normalized:
+            return True
+        if place_normalized in variation_normalized:
+            return True
+        
+    # Check for delivery/transport related keywords
+    delivery_keywords = ['agence', 'transport', 'livraison', 'delivery', 'express', 'logistics']
+    company_simple = normalize_text(company_name).replace(' ', '')
+    place_simple = place_normalized.replace(' ', '')
+    
+    if company_simple in place_simple:
+        return True
+        
+    for keyword in delivery_keywords:
+        if keyword in place_normalized and any(var.replace(' ', '') in place_simple for var in company_variations):
+            return True
+    
+    return False
 
-def generate_search_queries(company_name: str, wilaya_name: str) -> List[str]:
-    """Génère plusieurs requêtes de recherche pour une meilleure couverture"""
-    queries = []
-    
-    clean_company = company_name.strip()
-    clean_wilaya = wilaya_name.strip()
-    
-    base_query = f'"{clean_company}" {clean_wilaya}'
-    queries.append(f"{base_query} Algeria")
-    queries.append(f"{base_query} Algérie")
-    queries.append(f'"{clean_company}" agence {clean_wilaya}')
-    queries.append(f'"{clean_company}" livraison {clean_wilaya}')
-    
-    if wilaya_name in WILAYA_ALTERNATIVES:
-        for alt_name in WILAYA_ALTERNATIVES[wilaya_name]:
-            queries.append(f'"{clean_company}" {alt_name}')
-            queries.append(f'"{clean_company}" agence {alt_name}')
-    
-    return list(set(queries))
-
-def search_in_wilaya(client: googlemaps.Client, company_name: str, wilaya_name: str, 
-                    coordinates: Tuple[float, float], language: str) -> List[Dict]:
-    """Recherche les emplacements d'une entreprise dans une wilaya spécifique"""
-    locations = []
-    queries = generate_search_queries(company_name, wilaya_name)
-    
-    for query in queries:
-        try:
-            for lang in ['fr', 'en', 'ar'] if language == 'both' else [language]:
-                search_result = client.places(
-                    query,
-                    location=coordinates,
-                    radius=50000,
-                    language=lang,
-                    type='establishment'
-                )
-
-                if not search_result.get('results'):
-                    search_result = client.places_nearby(
-                        location=coordinates,
-                        radius=50000,
-                        keyword=f'"{company_name}"',
-                        language=lang
-                    )
-
-                for place in search_result.get('results', []):
-                    if not is_valid_company_name(place['name'], company_name):
-                        continue
-                    
-                    details = client.place(place['place_id'], fields=[
-                        'formatted_address',
-                        'geometry',
-                        'name',
-                        'address_component',
-                        'vicinity',
-                        'international_phone_number',
-                        'website',
-                        'opening_hours'
-                    ], language=lang)['result']
-                    
-                    if not is_valid_company_name(details['name'], company_name):
-                        continue
-                    
-                    location_data = process_place_details(details, wilaya_name, lang)
-                    
-                    if location_data and not is_duplicate_location(location_data, locations):
-                        locations.append(location_data)
-                
-                time.sleep(2)
-                
-        except Exception as e:
-            print(f"Erreur lors de la recherche '{query}' dans {wilaya_name}: {str(e)}")
-            continue
-    
-    return locations
+def validate_coordinates(lat: float, lng: float, target_coords: Tuple[float, float], max_distance: float = 0.5) -> bool:
+    """Validate coordinates with configurable maximum distance."""
+    return (abs(lat - target_coords[0]) <= max_distance and 
+            abs(lng - target_coords[1]) <= max_distance)
 
 def process_place_details(details: Dict, wilaya_name: str, lang: str) -> Dict:
-    """Traite et valide les détails d'un emplacement"""
+    """Process and validate place details with better error handling."""
     try:
         address_components = details.get('address_components', [])
         wilaya_info = get_wilaya_info(address_components)
         
-        if not wilaya_info['code'] or wilaya_name.lower() not in wilaya_info['name'].lower():
+        # Enhanced wilaya name validation
+        if not wilaya_info['code']:
+            return None
+            
+        # More flexible wilaya name matching for new wilayas
+        wilaya_code = int(wilaya_info['code'])
+        if wilaya_code >= 49:
+            # For new wilayas, check both current and parent wilaya names
+            parent_wilayas = {
+                'Timimoun': 'Adrar',
+                'Bordj Badji Mokhtar': 'Adrar',
+                'Béni Abbès': 'Béchar',
+                'In Salah': 'Tamanrasset',
+                'In Guezzam': 'Tamanrasset',
+                'Touggourt': 'Ouargla',
+                'Djanet': 'Illizi',
+                'El M\'Ghair': 'El Oued',
+                'El Meniaa': 'Ghardaïa'
+            }
+            if wilaya_name in parent_wilayas:
+                if not (wilaya_name.lower() in wilaya_info['name'].lower() or 
+                       parent_wilayas[wilaya_name].lower() in wilaya_info['name'].lower()):
+                    return None
+        elif wilaya_name.lower() not in wilaya_info['name'].lower():
             return None
             
         commune = next((comp['long_name'] for comp in address_components 
-                       if 'locality' in comp['types']), '')
+                       if 'locality' in comp['types'] or 
+                       'sublocality' in comp['types'] or
+                       'administrative_area_level_2' in comp['types']), '')
+                       
         postal_code = extract_postal_code(address_components, wilaya_info)
         
-        return {
+        # Enhanced location data
+        location_data = {
             'name': clean_arabic_text(details.get('name', '')),
             'address': clean_arabic_text(details.get('formatted_address', '')),
             'vicinity': clean_arabic_text(details.get('vicinity', '')),
@@ -376,76 +340,309 @@ def process_place_details(details: Dict, wilaya_name: str, lang: str) -> Dict:
             'website': details.get('website', ''),
             'latitude': details['geometry']['location']['lat'],
             'longitude': details['geometry']['location']['lng'],
-            'language': lang
+            'language': lang,
+            'place_id': details.get('place_id', ''),
+            'status': details.get('business_status', 'OPERATIONAL')
         }
+        
+        return location_data
     except Exception as e:
-        print(f"Erreur lors du traitement des détails: {str(e)}")
+        print(f"Error processing place details: {str(e)}")
         return None
 
-def search_company_locations(client: googlemaps.Client, company_name: str, language: str = 'en') -> List[Dict]:
-    """Recherche tous les emplacements d'une entreprise dans toutes les wilayas d'Algérie"""
-    all_locations = []
+def generate_search_queries(company_name: str, wilaya_name: str) -> List[str]:
+    """Generate optimized search queries with enhanced company name handling."""
+    queries = []
+    company_variations = normalize_company_name(company_name)
     
-    for wilaya_name, coordinates in WILAYA_COORDINATES.items():
-        print(f"\nRecherche dans {wilaya_name} (Code: {ALGERIA_WILAYAS[wilaya_name]['code']})...")
+    # Base queries with company variations
+    for variation in company_variations:
+        base_queries = [
+            f"{variation} {wilaya_name}",
+            f"agence {variation} {wilaya_name}",
+            f"{variation} livraison {wilaya_name}",
+            f"{variation} transport {wilaya_name}"
+        ]
+        queries.extend(base_queries)
+    
+    # Special handling for new wilayas (49-58)
+    wilaya_code = next((info['code'] for w, info in ALGERIA_WILAYAS.items() if w == wilaya_name), '')
+    if wilaya_code and int(wilaya_code) >= 49:
+        if wilaya_name in WILAYA_ALTERNATIVES:
+            for alt_name in WILAYA_ALTERNATIVES[wilaya_name]:
+                for variation in company_variations[:2]:  # Limit variations for alternatives
+                    alt_queries = [
+                        f"{variation} {alt_name}",
+                        f"agence {variation} {alt_name}"
+                    ]
+                    queries.extend(alt_queries)
+        
+        # Add parent wilaya references
+        parent_wilayas = {
+            'Timimoun': 'Adrar',
+            'Bordj Badji Mokhtar': 'Adrar',
+            'Béni Abbès': 'Béchar',
+            'In Salah': 'Tamanrasset',
+            'In Guezzam': 'Tamanrasset',
+            'Touggourt': 'Ouargla',
+            'Djanet': 'Illizi',
+            'El M\'Ghair': 'El Oued',
+            'El Meniaa': 'Ghardaïa'
+        }
+        
+        if wilaya_name in parent_wilayas:
+            parent = parent_wilayas[wilaya_name]
+            for variation in company_variations[:2]:
+                queries.extend([
+                    f"{variation} {wilaya_name} {parent}",
+                    f"{variation} agence {parent} {wilaya_name}"
+                ])
+    
+    # Add specific queries for delivery companies
+    if any(keyword in company_name.lower() for keyword in ['express', 'delivery', 'transport']):
+        for variation in company_variations[:2]:
+            delivery_queries = [
+                f"{variation} point relais {wilaya_name}",
+                f"{variation} depot {wilaya_name}",
+                f"{variation} centre {wilaya_name}",
+                f"societe {variation} {wilaya_name}",
+                f"entreprise {variation} {wilaya_name}"
+            ]
+            queries.extend(delivery_queries)
+    
+    # Remove duplicates while preserving order
+    return list(dict.fromkeys(queries))
+
+def search_in_wilaya(client: googlemaps.Client, company_name: str, wilaya_name: str, 
+                    coordinates: Tuple[float, float], language: str) -> List[Dict]:
+    locations = []
+    queries = generate_search_queries(company_name, wilaya_name)
+    
+    # Special handling for new wilayas - try with larger radius
+    wilaya_code = next((info['code'] for w, info in ALGERIA_WILAYAS.items() if w == wilaya_name), '')
+    search_radius = 50000 if wilaya_code and int(wilaya_code) >= 49 else 30000
+    
+    # For specific wilayas with known issues, try larger radius
+    problematic_wilayas = {'Blida', 'Alger', 'Oran', 'Constantine'}
+    if wilaya_name in problematic_wilayas:
+        search_radius = 40000
+    
+    try:
+        search_result = None
+        for query in queries:
+            try:
+                print(f"Searching with query: {query}")
+                search_result = client.places(
+                    query,
+                    location=coordinates,
+                    radius=search_radius,
+                    language='fr',
+                    type='establishment'
+                )
+                
+                if search_result.get('results'):
+                    break
+                    
+                time.sleep(2)
+                
+            except Exception as e:
+                print(f"Query error for '{query}': {str(e)}")
+                time.sleep(2)
+                continue
+
+        # Try text search if places search fails
+        if not search_result or not search_result.get('results'):
+            try:
+                print("Trying text search...")
+                for variation in normalize_company_name(company_name)[:2]:
+                    search_result = client.places(
+                        f"{variation} {wilaya_name}",
+                        location=coordinates,
+                        radius=search_radius,
+                        language='fr'
+                    )
+                    if search_result.get('results'):
+                        break
+                    time.sleep(2)
+            except Exception as e:
+                print(f"Text search error: {str(e)}")
+                time.sleep(2)
+
+        # Try nearby search as last resort
+        if not search_result or not search_result.get('results'):
+            try:
+                print("Trying nearby search...")
+                search_result = client.places_nearby(
+                    location=coordinates,
+                    radius=search_radius,
+                    keyword=company_name,
+                    language='fr'
+                )
+                time.sleep(2)
+            except Exception as e:
+                print(f"Nearby search error: {str(e)}")
+                time.sleep(2)
+                return locations
+
+        processed_places = set()
+        
+        for place in search_result.get('results', []):
+            if not validate_place_name(place.get('name', ''), company_name):
+                continue
+                
+            place_id = place['place_id']
+            if place_id in processed_places:
+                continue
+                
+            processed_places.add(place_id)
+            
+            try:
+                print(f"Getting details for: {place.get('name', '')}")
+                details = client.place(place_id, fields=[
+                    'formatted_address',
+                    'geometry',
+                    'name',
+                    'address_component',
+                    'vicinity',
+                    'international_phone_number',
+                    'website',
+                    'business_status',
+                    'place_id',
+                    'type'
+                ], language='fr')['result']
+                
+                if details.get('business_status') == 'CLOSED_PERMANENTLY':
+                    continue
+                    
+                location_data = process_place_details(details, wilaya_name, 'fr')
+                
+                if location_data and not is_duplicate_location(location_data, locations):
+                    # More lenient coordinate validation for problematic wilayas
+                    max_distance = 0.8 if wilaya_name in problematic_wilayas else (0.8 if int(wilaya_code) >= 49 else 0.5)
+                    if validate_coordinates(location_data['latitude'], location_data['longitude'], coordinates, max_distance):
+                        locations.append(location_data)
+                        print(f"Found valid location: {location_data['name']} in {wilaya_name}")
+                
+                time.sleep(2)
+                
+            except Exception as e:
+                print(f"Error getting place details: {str(e)}")
+                time.sleep(2)
+                continue
+                
+    except Exception as e:
+        print(f"Error searching in {wilaya_name}: {str(e)}")
+        time.sleep(2)
+    
+    return locations
+
+def search_company_locations(client: googlemaps.Client, company_name: str, language: str = 'fr') -> List[Dict]:
+    """Search for company locations across Algeria."""
+    all_locations = []
+    total_wilayas = len(WILAYA_COORDINATES)
+    
+    print(f"\nSearching for {company_name} locations across Algeria...")
+    
+    for idx, (wilaya_name, coordinates) in enumerate(WILAYA_COORDINATES.items(), 1):
+        print(f"\nSearching in {wilaya_name} ({idx}/{total_wilayas})...")
+        
         locations = search_in_wilaya(client, company_name, wilaya_name, coordinates, language)
-        all_locations.extend(locations)
-        
         if locations:
-            print(f"Trouvé {len(locations)} emplacement(s) dans {wilaya_name}")
-        
+            all_locations.extend(locations)
+    
     return all_locations
 
 def save_to_csv(locations: List[Dict], company_name: str):
-    """Enregistre les résultats dans un fichier CSV"""
+    """Save the results to a CSV file with enhanced formatting."""
     if not locations:
-        print("Aucun emplacement trouvé.")
+        print("No locations found.")
         return
     
+    # Sort locations by wilaya code and name
     locations.sort(key=lambda x: (x['wilaya_code'], x['name']))
-    df = pd.DataFrame(locations)
-    filename = f"{company_name.replace(' ', '_').lower()}_locations.csv"
-    df.to_csv(filename, index=False, encoding='utf-8-sig')
-    print(f"\nRésultats enregistrés dans {filename}")
+    
+    # Create timestamp for unique filename
+    timestamp = time.strftime("%Y%m%d_%H%M%S")
+    filename = f"{company_name.replace(' ', '_').lower()}_locations_{timestamp}.csv"
+    
+    try:
+        df = pd.DataFrame(locations)
+        # Reorder columns for better readability
+        columns_order = [
+            'name', 'address', 'wilaya_name', 'wilaya_code', 'commune',
+            'postal_code', 'phone', 'website', 'latitude', 'longitude',
+            'vicinity', 'language', 'place_id', 'status'
+        ]
+        df = df[columns_order]
+        
+        # Ensure proper encoding for Arabic text
+        df.to_csv(filename, index=False, encoding='utf-8-sig')
+        print(f"\nResults saved to {filename}")
+        
+        # Print summary
+        print(f"\nSummary:")
+        print(f"Total locations found: {len(locations)}")
+        print("Locations per wilaya:")
+        wilaya_counts = df.groupby('wilaya_name').size()
+        for wilaya, count in wilaya_counts.items():
+            print(f"- {wilaya}: {count}")
+            
+    except Exception as e:
+        print(f"Error saving results: {str(e)}")
+        # Fallback save method
+        try:
+            import json
+            backup_file = f"{company_name.replace(' ', '_').lower()}_locations_{timestamp}.json"
+            with open(backup_file, 'w', encoding='utf-8') as f:
+                json.dump(locations, f, ensure_ascii=False, indent=2)
+            print(f"Results saved to backup file: {backup_file}")
+        except Exception as e2:
+            print(f"Error saving backup file: {str(e2)}")
 
 def main():
     try:
-        company_name = input("Entrez le nom de l'entreprise à rechercher: ").strip()
+        # Get company name from user
+        company_name = input("Enter the company name to search: ").strip()
         
+        # Get preferred language
         while True:
-            lang_choice = input("Choisissez la langue (en/fr/both): ").strip().lower()
+            lang_choice = input("Choose language (en/fr/both): ").strip().lower()
             if lang_choice in ['en', 'fr', 'both']:
                 break
-            print("Choix invalide. Veuillez entrer 'en', 'fr', ou 'both'.")
+            print("Invalid choice. Please enter 'en', 'fr', or 'both'.")
         
+        # Initialize Google Maps client
         client = initialize_gmaps_client()
         
-        print(f"\nRecherche des emplacements de {company_name} dans toutes les wilayas d'Algérie...")
-        print("Cela peut prendre plusieurs minutes...")
+        print(f"\nSearching for {company_name} locations across all wilayas in Algeria...")
+        print("This may take several minutes as we search each wilaya...")
         
+        # Search for locations
         locations = search_company_locations(client, company_name, lang_choice)
         
+        # Display results
         if locations:
-            print(f"\nTrouvé {len(locations)} emplacement(s) unique(s):")
+            print(f"\nFound {len(locations)} unique location(s):")
             for i, loc in enumerate(locations, 1):
-                print(f"\nEmplacement {i}:")
-                print(f"Nom: {loc['name']}")
-                print(f"Adresse: {loc['address']}")
-                print(f"Voisinage: {loc['vicinity']}")
+                print(f"\nLocation {i}:")
+                print(f"Name: {loc['name']}")
+                print(f"Address: {loc['address']}")
+                print(f"Vicinity: {loc['vicinity']}")
                 print(f"Wilaya: {loc['wilaya_name']} (Code: {loc['wilaya_code']})")
                 print(f"Commune: {loc['commune']}")
-                print(f"Code Postal: {loc['postal_code']}")
+                print(f"Postal Code: {loc['postal_code']}")
                 if loc['phone']:
-                    print(f"Téléphone: {loc['phone']}")
-                print(f"Coordonnées: {loc['latitude']}, {loc['longitude']}")
-                print(f"Langue: {loc['language']}")
+                    print(f"Phone: {loc['phone']}")
+                print(f"Coordinates: {loc['latitude']}, {loc['longitude']}")
+                print(f"Language: {loc['language']}")
             
+            # Save results to CSV
             save_to_csv(locations, company_name)
         else:
-            print(f"\nAucun emplacement trouvé pour {company_name} en Algérie.")
+            print(f"\nNo locations found for {company_name} in Algeria.")
             
     except Exception as e:
-        print(f"Une erreur s'est produite: {str(e)}")
+        print(f"An error occurred: {str(e)}")
 
 if __name__ == "__main__":
     main() 

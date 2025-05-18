@@ -87,9 +87,13 @@ Contributions are welcome! Here's how you can help:
 
 ## About the Author
 
-I'm a tech entrepreneur and developer based in Algeria, focused on improving the e-commerce and logistics ecosystem. I created this tool while building my e-commerce platform to solve real-world challenges in the Algerian market.
+I'm Younes Sarni, a tech entrepreneur and fullstack developer based in Oran, Algeria. As the founder of an e-commerce platform, I created this tool to solve real-world challenges in the Algerian market, particularly the lack of public APIs for delivery company locations.
 
-Connect with me on [LinkedIn](https://www.linkedin.com/in/YOUR_LINKEDIN_USERNAME)
+Connect with me:
+- LinkedIn: [Younes Sarni](https://dz.linkedin.com/in/younesarni)
+- Email: ysarni42@gmail.com
+- Website: [younes-sarni.me](http://younes-sarni.me)
+- Twitter: [@sarni_younes](https://twitter.com/sarni_younes)
 
 ## License
 

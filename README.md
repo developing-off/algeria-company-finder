@@ -25,7 +25,7 @@ As the founder of an e-commerce platform in Algeria, I developed this tool to so
 
 1. Clone the repository:
 ```bash
-git clone https://github.com/YOUR_USERNAME/algeria-company-finder.git
+git clone https://github.com/developing-off/algeria-company-finder.git
 cd algeria-company-finder
 ```
 
@@ -91,8 +91,8 @@ I'm Younes Sarni, a tech entrepreneur and fullstack developer based in Oran, Alg
 
 Connect with me:
 - LinkedIn: [Younes Sarni](https://dz.linkedin.com/in/younesarni)
-- Email: ysarni42@gmail.com
-- Website: [younes-sarni.me](http://younes-sarni.me)
+- Email: sarniyounes@gmail.com
+- Website: [younes-sarni.me](https://ys-dev.tech)
 - Twitter: [@sarni_younes](https://twitter.com/sarni_younes)
 
 ## License

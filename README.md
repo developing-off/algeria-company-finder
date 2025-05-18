@@ -1,125 +1,110 @@
-# Algeria Company Location Finder
+# Company Location Finder - Algeria 🇩🇿
 
-This application helps you find all locations of a specific company in Algeria using Google Maps API, including details like address, wilaya, commune, and zip code.
+Un outil Python pour rechercher et localiser les agences et points de service des entreprises à travers les 58 wilayas d'Algérie.
 
-## Setup
+## 📋 Description
 
-<<<<<<< HEAD
-1. Install the required dependencies:
-=======
-## Features
+Ce script utilise l'API Google Maps pour rechercher et collecter des informations détaillées sur les locations d'entreprises en Algérie. Il est particulièrement optimisé pour :
+- Les sociétés de livraison et transport (ex: Zrexpress, Yalidine)
+- La couverture des 58 wilayas
+- Le support multilingue (arabe, français)
+- La gestion des variations de noms d'entreprises
 
-- 🔍 Comprehensive search across all 58 Algerian wilayas
-- 🌐 Multi-language support (Arabic, French, English)
-- 📍 Accurate location data with coordinates
-- 📱 Phone number standardization
-- 🏢 Complete address information (wilaya, commune, postal code)
-- 📊 CSV export for easy data integration
-- 🔄 Duplicate detection and validation
-- 🗺️ Uses Google Maps API for reliable data
+## ✨ Fonctionnalités
 
-## Prerequisites
+- 🔍 Recherche intelligente avec plusieurs variations de noms
+- 📍 Détection précise des locations avec validation des coordonnées
+- 🗺️ Couverture complète des 58 wilayas d'Algérie
+- 🔄 Gestion des doublons et validation des résultats
+- 📱 Collecte des numéros de téléphone et sites web
+- 📍 Support des codes postaux et communes
+- 💾 Export des résultats en CSV avec horodatage
 
-- Python 3.8+
-- Google Maps API key
-- Required Python packages (see requirements.txt)
+## 🚀 Installation
 
-## Installation
-
-1. Clone the repository:
+1. Clonez le repository :
 ```bash
-git clone https://github.com/developing-off/algeria-company-finder.git
-cd algeria-company-finder
+git clone <https://github.com/developing-off/algeria-company-finder>
+cd <algeria-company-finder>
 ```
 
-2. Install dependencies:
->>>>>>> ff4fa5aa00ad038e7037c54635ea0e93dddf3948
+2. Installez les dépendances :
 ```bash
 pip install -r requirements.txt
 ```
 
-2. Create a `.env` file in the root directory and add your Google Maps API key:
+3. Créez un fichier `.env` à la racine du projet et ajoutez votre clé API Google Maps :
 ```
-GOOGLE_MAPS_API_KEY=your_api_key_here
+GOOGLE_MAPS_API_KEY=votre_clé_api_ici
 ```
 
-To get a Google Maps API key:
-1. Go to the [Google Cloud Console](https://console.cloud.google.com/)
-2. Create a new project or select an existing one
-3. Enable the Places API and Maps JavaScript API
-4. Create credentials (API key)
-5. Copy the API key to your `.env` file
+## 🛠️ Configuration requise
 
-## Usage
+- Python 3.6+
+- Clé API Google Maps avec les services suivants activés :
+  - Places API
+  - Geocoding API
+  - Maps JavaScript API
 
-Run the script with:
+## 📖 Utilisation
+
+1. Lancez le script :
 ```bash
 python company_finder.py
 ```
 
-<<<<<<< HEAD
-Enter the company name when prompted, and the application will search for all locations in Algeria. 
-=======
-Follow the prompts to:
-1. Enter the company name to search
-2. Choose the preferred language (en/fr/both)
-3. Wait for the results
+2. Entrez le nom de l'entreprise à rechercher
 
-The script will:
-- Search all wilayas for company locations
-- Display found locations with details
-- Save results to a CSV file
+3. Choisissez la langue de recherche (fr/en/both)
 
-## Example Output
+4. Le script va :
+   - Rechercher dans chaque wilaya
+   - Afficher la progression en temps réel
+   - Sauvegarder les résultats dans un fichier CSV
 
-The script generates a CSV file with the following information for each location:
-- Company name
-- Complete address
-- Wilaya name and code
+## 📊 Format des résultats
+
+Le fichier CSV généré contient les informations suivantes :
+- Nom de l'agence
+- Adresse complète
+- Wilaya et code wilaya
 - Commune
-- Postal code
-- Phone number (if available)
-- Coordinates (latitude/longitude)
-- Website (if available)
+- Code postal
+- Numéro de téléphone
+- Site web (si disponible)
+- Coordonnées GPS
+- Statut de l'établissement
 
-## Contributing
+## 🔧 Personnalisation
 
-Contributions are welcome! Here's how you can help:
+Le script peut être personnalisé en modifiant :
+- Le rayon de recherche par wilaya
+- Les variations de noms d'entreprises
+- Les critères de validation des résultats
+- Le format d'export des données
 
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
+## ⚠️ Limitations
 
-## Use Cases
+- Respect des quotas de l'API Google Maps
+- Délai de 2 secondes entre les requêtes
+- Maximum de 50 résultats par wilaya
 
-- E-commerce platforms needing delivery points
-- Logistics companies mapping service coverage
-- Businesses planning expansion strategies
-- Market researchers analyzing company presence
+## 📝 License
 
-## About the Author
+Ce projet est sous licence MIT. Voir le fichier `LICENSE` pour plus de détails.
 
-I'm Younes Sarni, a tech entrepreneur and fullstack developer based in Oran, Algeria. As the founder of an e-commerce platform, I created this tool to solve real-world challenges in the Algerian market, particularly the lack of public APIs for delivery company locations.
+## 🤝 Contribution
 
-Connect with me:
-- LinkedIn: [Younes Sarni](https://dz.linkedin.com/in/younesarni)
-- Email: sarniyounes@gmail.com
-- Website: [younes-sarni.me](https://ys-dev.tech)
-- Twitter: [@sarni_younes](https://twitter.com/sarni_younes)
+Les contributions sont les bienvenues ! N'hésitez pas à :
+1. Fork le projet
+2. Créer une branche pour votre fonctionnalité
+3. Commiter vos changements
+4. Pousser vers la branche
+5. Ouvrir une Pull Request
 
-## License
+## 📞 Support
 
-This project is licensed under the MIT License - see the LICENSE file for details.
-
-## Acknowledgments
-
-- Google Maps API for providing reliable location data
-- The Python community for excellent libraries
-- The Algerian tech community for feedback and support
-
----
-
-Made with ❤️ in Algeria 🇩🇿 
->>>>>>> ff4fa5aa00ad038e7037c54635ea0e93dddf3948
+Pour toute question ou problème :
+1. Ouvrez une issue sur GitHub
+2. Décrivez clairement le problème rencontré
+3. Incluez les logs et messages d'erreur si possible
